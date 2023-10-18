@@ -34,10 +34,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  dynamic radioSelectionnee;
   late double? poids;
   late double age =0;
   bool genre = false;
   double taille = 170.0;
+  Map mapactivity = {
+    0: "Faible",
+    1: "Moderee",
+    2: "Forte"
+  };
 
 
   @override
@@ -49,7 +55,8 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: setColor(),
           title: Text(widget.title),
         ),
-        body: Center(
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(15.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -108,6 +115,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.white)
                     ),
                     padding(),
+                    textWithStyle("Quelle est votre activité sportive ?", color: setColor()),
+                    padding(),
+                    rowRadio(),
+                    padding(),
                   ],
                 ),
               )
@@ -148,6 +159,32 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  Row rowRadio(){
+    List<Widget> l = [];
+    mapactivity.forEach((key, value) {
+      Column colonne = Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Radio(
+              value: key,
+              groupValue: radioSelectionnee,
+              onChanged: (dynamic i){
+                setState(() {
+                  radioSelectionnee = i;
+                });
+              }
+          ),
+          textWithStyle(value, color: setColor()),
+        ],
+      );
+      l.add(colonne);
+    });
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: l,
+    );
+  }
+
   Text textWithStyle(String data, {color = Colors.black, fontSize = 15.0}){
     return Text(
       data,
@@ -158,4 +195,5 @@ class _MyHomePageState extends State<MyHomePage> {
       )
     );
   }
+
 }
