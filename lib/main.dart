@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -74,10 +75,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         textWithStyle("Femme", color: Colors.pinkAccent),
-                        Switch(
+                        CupertinoSwitch(
                             value: gender,
-                            inactiveTrackColor: Colors.pinkAccent,
-                            activeTrackColor: Colors.blueAccent,
+                            trackColor: Colors.pinkAccent,
+                            activeColor: Colors.blueAccent,
                             onChanged: (bool b) {
                               setState(() {
                                 gender = b;
@@ -94,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           weight = double.tryParse(string);
                         });
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: "Entrez votre poids en kilo (kg)"
                       ),
                     ),
