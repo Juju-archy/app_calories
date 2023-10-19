@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'App Calucl de calories',
+      title: 'App Calcule de calories',
       theme: ThemeData(
 
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -167,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Future<Null> alertNeed() async{
+  Future<void> alertNeed() async{
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -192,7 +192,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<Null> alertMissing() async{
+  Future<void> alertMissing() async{
     return showDialog(
         context: context, 
         barrierDismissible: false,
@@ -217,7 +217,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Padding(padding: EdgeInsets.only(top: 20.0));
   }
 
-  Future<Null> _showPicker(BuildContext context) async{
+  Future<void> _showPicker(BuildContext context) async{
     DateTime? choix = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
