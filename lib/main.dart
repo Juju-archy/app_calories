@@ -44,6 +44,8 @@ class _MyHomePageState extends State<MyHomePage> {
     1: "Moderee",
     2: "Forte"
   };
+  late int calorieBase;
+  late int calorieActivity;
 
 
   @override
@@ -60,7 +62,9 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
+              padding(),
               textWithStyle('Remplissez tous les champs pour obtenir votre apport qualorifique journalier:'),
+              padding(),
               Card(
                 elevation: 10.0,
                 child: Column(
@@ -119,6 +123,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding(),
                     rowRadio(),
                     padding(),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(backgroundColor: setColor()),
+                      onPressed: _calculNombreCalories,
+                      child: textWithStyle("Calculer", color: Colors.white),
+                    ),
+                    padding(),
                   ],
                 ),
               )
@@ -126,6 +136,80 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
+    );
+  }
+
+  void _calculNombreCalories(){
+    if (age != 0 && poids != null && radioSelectionnee != null){
+      //calculer
+      if(genre){
+        calorieBase = (66.4730 + (13.7516 * poids!) + (5.0033 * taille) - (6.7550 * age)).toInt();
+      } else {
+        calorieBase = (665.0955 + (9.5634 * poids!) + (1.8496 * taille) - (4.6756 * age)).toInt();
+      }
+      switch(radioSelectionnee){
+        case 0:
+          calorieActivity = (calorieBase * 1.2).toInt();
+          break;
+        case 1:
+          calorieActivity = (calorieBase * 1.5).toInt();
+          break;
+        case 2:
+          calorieActivity = (calorieBase * 1.8).toInt();
+          break;
+      }
+      setState(() {
+        alertBesoin();
+      });
+    } else {
+      //Alert missing fields
+      alertMissing();
+    }
+  }
+
+  Future<Null> alertBesoin() async{
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return SimpleDialog(
+            title: textWithStyle("Votre besoin en calorie", color: setColor()),
+            contentPadding: EdgeInsets.all(15.0),
+            children: [
+              padding(),
+              textWithStyle("Votre besoin de base est de: $calorieBase"),
+              padding(),
+              textWithStyle("Votre besoin avec activité est de: $calorieActivity"),
+              padding(),
+              ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: ElevatedButton.styleFrom(backgroundColor: setColor()),
+                  child: textWithStyle("OK", color: Colors.white)
+              )
+            ],
+          );
+        }
+    );
+  }
+
+  Future<Null> alertMissing() async{
+    return showDialog(
+        context: context, 
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: textWithStyle("Erreur"),
+            content: textWithStyle("Tous les champs ne sont pas remplis"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }, 
+                  child: textWithStyle("OK", color: Colors.red)
+              )
+            ],
+          );
+        }
     );
   }
   
